@@ -10,7 +10,35 @@ const localtunnel = require('localtunnel');
   // i.e. https://abcdefgjhij.localtunnel.me
   tunnel.url;
 
+  console.log('Tunnel URL:', tunnel.url);
+
+  tunnel.on('error', (err) => {
+    console.error('Error', err);
+  });
+
+  tunnel.on('request', (info) => {
+    console.log('Request', info);
+  });
+
+  tunnel.on('SIGINT', () => {
+    console.log('SIGINT');
+    tunnel.exit();
+  });
+
+  tunnel.on('SIGTERM', () => {
+    console.log('SIGTERM');
+    tunnel.exit();
+  });
+
+  tunnel.on('uncaughtException', (err) => {
+    console.log.error(err);
+  });
+
+  tunnel.on('unhandledRejection', (reason, promise) => {
+    console.log.error(reason);
+  });
+
   tunnel.on('close', () => {
-    // tunnels are closed
+    console.log('Tunnel closed');
   });
 })();
